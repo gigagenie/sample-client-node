@@ -1,0 +1,21 @@
+{
+  "name": "sample-client-node",
+  "version": "1.0.0",
+  "description": "sample client programmed by node.js",
+  "main": "startAgent.js",
+  "author": "AI Agent Project",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cvlc": "^0.1.0",
+    "dateformat": "^3.0.3",
+    "fs": "0.0.1-security",
+    "getmac": "^5.2.0",
+    "grpc": "^1.24.2",
+    "node-record-lpcm16": "^0.3.1",
+    "sync-request": "^6.1.0",
+    "winston": "^3.2.1"
+  },
+  "scripts": {
+    "start": "node startAgent.js"
+  }
+}
