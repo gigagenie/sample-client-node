@@ -105,4 +105,4 @@ dist
 
 node_modules/
 package-lock.json
-uuid.json
+.env.dev.uuid

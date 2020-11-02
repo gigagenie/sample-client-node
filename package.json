@@ -8,6 +8,7 @@
   "dependencies": {
     "cvlc": "^0.1.0",
     "dateformat": "^3.0.3",
+    "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
     "getmac": "^5.2.0",
     "grpc": "^1.24.2",

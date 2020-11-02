@@ -15,12 +15,10 @@
  *
  */
 
-const crypto = require('crypto');
 const fs = require('fs');
 const request = require('sync-request');
-const utils = require(__dirname+'/util.js');
-const auth = require(__dirname+'/../config/auth.json');
-
+const utils = require(__dirname + '/util.js');
+const dotenv = require('dotenv');
 
 function getAuth(params) {
     const timeStamp = utils.getTimeStamp();
@@ -40,7 +38,7 @@ function getAuth(params) {
             "x-auth-clienttype": params.deviceType,
         }
     };
-    let res = request('POST', auth.url, opts);
+    let res = request('POST', process.env.AUTH_URL, opts);
     return JSON.parse(res.getBody());
 };
 
@@ -54,16 +52,20 @@ function chkAuth(params) {
             "x-auth-signature": signature,
         }
     };
-    let res = request('GET', auth.url + '/' + params.uuid, opts);
+    let res = request('GET', process.env.AUTH_URL + '/' + params.uuid, opts);
     return JSON.parse(res.getBody());
 };
 
 function authorize(params, fname) {
+    
     let newUuid
     try {
-        let data = fs.readFileSync(fname, 'utf8');
-        newUuid = JSON.parse(data).uuid;
-        params.uuid = uuid;
+        const parseUuid = dotenv.config({ path: fname });
+        if (parseUuid.error) {
+            throw parseUuid.error;
+        }
+        newUuid = process.env.UUID;
+        params.uuid = newUuid;
         res = chkAuth(params);
         if (res.rc != 200) {
             newUuid = newUUID(params, fname);
@@ -76,9 +78,10 @@ function authorize(params, fname) {
 
 function newUUID(params, fname) {
     res = getAuth(params);
-    fs.writeFile(fname, JSON.stringify({ "uuid": res.uuid }), function (err) {
+    fs.writeFileSync(fname, `UUID=${res.uuid}`, function (err) {
         if (err) throw err
     });
+    process.env.UUID = res.uuid;
     return res.uuid;
 }
 

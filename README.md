@@ -9,7 +9,7 @@ GiGA Genie Inside(이하, G-INSIDE)는 3rd party 개발자가 자신들의 제�
 G-INSIDE는 기가지니가 탑재된 제품을 개발자들이 쉽게 만들 수 있도록 개발 도구와 문서, 샘플 소스 등 개발에 필요한 리소스를 제공합니다.
 
 
-## Sample client Node 개요
+## Sample client Nodejs 개요
 
 Sample Client에 구현되어있는 기능은 다음과 같습니다.
 * 디바이스 키 인증
@@ -26,10 +26,10 @@ Sample Client에 구현되어있는 기능은 다음과 같습니다.
 
 * README.md: this file
 * package.json: 본 프로젝트 정보와 의존성(dependencies)을 관리하는 문서
-* config/: 본 프로젝트 실행을 위한 서버와 키 정보
-  - auth.json: 인증 서버 정보
-  - server.json: gRPC 연결 서버 정보
-  - client.json: 본 프로젝트 실행을 위한 키 정보(**발급받은 키 정보로 수정 필요**)
+* config/: 본 프로젝트 실행을 위한 서버와 클라이언트 키 정보
+  - .env.dev: 인증 서버 및 gRPC 서버 정보
+  - .env.dev.client: 본 프로젝트 실행을 위한 키 정보(**발급받은 키 정보로 수정 필요**)
+  - .env.dev.uuid: 인증된 단말의 UUID 정보(**최초 인증 시 생성**)
 * lib/: gRPC 연결을 위한 정보
   - gigagenieM.proto: gRPC proto 파일
 * **startAgent.js**: 본 배포판을 실행하는 메인 파일으로, src/ 내부의 파일을 호출
@@ -111,14 +111,13 @@ $ source ~/.zshrc
 ## 2. 클라이언트 키 정보 설정
 발급받은 인사이드 디바이스 키 정보를 입력 
 
-    $ vi config/client.json
+    $ vi config/.env.dev.client
+        
+    CLIENT_TYPE=GINSIDE
+    CLIENT_ID=YOUR_CLIENT_ID
+    CLIENT_KEY=YOUR_CLIENT_KEY
+    CLIENT_SECRET=YOUR_CLIENT_SECRET
     
-    {
-        "client_type": "GINSIDE",
-        "client_id": YOUR_CLIENT_ID,
-        "client_key": YOUR_CLIENT_KEY,
-        "client_secret": YOUR_CLIENT_SECRET
-    }
 
 ## 4. 실행 !!!
     $ npm run start

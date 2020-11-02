@@ -15,14 +15,13 @@
  *
  */
 
-const config = require(__dirname+'/../config/client.json');
 const getmac = require('getmac');
 
 const clientInfo = {
-    deviceType: config.client_type,
-    clientId: config.client_id,
-    clientKey: config.client_key,
-    clientSecret: config.client_secret,
+    deviceType: process.env.CLIENT_TYPE,
+    clientId: process.env.CLIENT_ID,
+    clientKey: process.env.CLIENT_KEY,
+    clientSecret: process.env.CLIENT_SECRET,
     userId: getmac.default()
 }
 

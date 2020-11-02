@@ -14,17 +14,20 @@
  * limitations under the License.
  *
  */
+const dotenv = require('dotenv');
+dotenv.config({ path:  __dirname + '/config/.env.dev' });
+dotenv.config({ path:  __dirname + '/config/.env.dev.client'});
 
-const logger = require(__dirname+'/src/logger');
-const auth = require(__dirname+'/src/auth.js');
+const logger = require(__dirname + '/src/logger');
+const auth = require( __dirname + '/src/auth.js');
 const record = require('node-record-lpcm16');
-const AgentClient = require(__dirname+'/src/agentClient');
-const { clientInfo } = require(__dirname+'/src/client');
+const { clientInfo } = require( __dirname + '/src/client');
 const startOption = {
-	uuid: auth.authorize(clientInfo, __dirname+'/config/uuid.json'),
+	uuid: auth.authorize(clientInfo, __dirname + '/config/.env.dev.uuid'),
 	initialDssStat: ['SU:016', 'SU:027', 'SI:002', 'SG:000'] //Launcher Main, HDMI COnnected, Remote Voice Input, Nobody Here
 };
 
+const AgentClient = require( __dirname + '/src/agentClient');
 const grpcAgent = new AgentClient(startOption);
 grpcAgent.onEnd = () => {
 	console.log('GRPC Ended..');

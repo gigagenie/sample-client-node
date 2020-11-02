@@ -16,19 +16,16 @@
  */
 
 const grpc = require('grpc');
-const util = require(__dirname+'/util');
-const server = require(__dirname+'/../config/server.json');
-const { clientInfo } = require(__dirname+'/client');
+const util = require(__dirname + '/util');
+const { clientInfo } = require(__dirname + '/client');
+const uuid = process.env.UUID;
 
-let uuid;
-
-function grpc_channel(in_uuid) {
-    uuid = in_uuid;
+function grpc_channel() {    
     sslCredential = grpc.credentials.createSsl();
     authCredential = grpc.credentials.createFromMetadataGenerator(_generateMetadata);
     credentials = grpc.credentials.combineChannelCredentials(sslCredential, authCredential);
-    proto = grpc.load(__dirname+'/../lib/gigagenieM.proto').kt.gigagenie.ai.m;
-    return new proto.GigagenieM(`${server.host}:${server.port}`, credentials);
+    proto = grpc.load(__dirname + '/../lib/gigagenieM.proto').kt.gigagenie.ai.m;
+    return new proto.GigagenieM(`${process.env.HOST_GRPC}:${process.env.PORT_GRPC}`, credentials);
 }
 
 function _generateMetadata(params, callback) {
